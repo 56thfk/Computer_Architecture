@@ -165,27 +165,27 @@ int char_to_int(const char data)
     int value;
 
     switch(data){
-        case 'a':
+        case 'a': // [[fallthrough]]
         case 'A':
             value = 10;
             break;
-        case 'b':
+        case 'b': // [[fallthrough]]
         case 'B':
             value = 11;
             break;
-        case 'c':
+        case 'c': // [[fallthrough]]
         case 'C':
             value = 12;
             break;
-        case 'd':
+        case 'd': // [[fallthrough]]
         case 'D':
             value = 13;
             break;
-        case 'e':
+        case 'e': // [[fallthrough]]
         case 'E':
             value = 14;
             break;
-        case 'f':
+        case 'f': // [[fallthrough]]
         case 'F':
             value = 15;
             break;
