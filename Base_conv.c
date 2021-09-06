@@ -5,9 +5,9 @@
 #include <math.h>
 #include <limits.h>
 
-#define MAX_SIZE_BIN 64 
-#define MAX_SIZE_OCT 22
-#define MAX_SIZE_HEX 16
+#define MAX_SIZE_BIN 65 
+#define MAX_SIZE_OCT 23
+#define MAX_SIZE_HEX 17
 
 void main_menu();
 void print_header(const char* notice);
@@ -16,6 +16,8 @@ void conv_bin();
 void conv_oct();
 void conv_dec();
 void conv_hex();
+void select_data_type();
+void init_data();
 bool isHex(const char hexchar);
 int char_to_int(const char data);
 
@@ -35,11 +37,11 @@ int main()
     return 0;
 }
 
-void main_menu()
+void main_menu(const char* message)
 {
     system("clear");
     print_header("");
-    printf("                  ▄   ▄  ▄▄   ▄ ▄▄▄   ▄▄▄▄   ▄▄  ▄▄▄  ▄  ▄                   \n");
+    printf("                 ▄   ▄  ▄▄   ▄ ▄▄▄   ▄▄▄▄   ▄▄  ▄▄▄  ▄  ▄                   \n");
     printf("                  █▀▄▀█ █  █  ▄ █  █  █ █ █ █▄▄█ █  █ █  █                   \n");
     printf("                  █   █ ▀▄▄▀▄ █ █  █  █ █ █ ▀▄▄  █  █ ▀▄▄▀▄                  \n");
     printf("                  -----------------------------------------                  \n");
@@ -54,22 +56,17 @@ void main_menu()
     switch(getchar()){
         case '1':
             conv_dec();
-            break;
     //         conv_bin();
-    //         break;
     //     case '2':
     //         conv_oct();
-    //         break;
     //     case '3':
     //         conv_dec();
-    //         break;
     //     case '4':
     //         conv_hex();
-    //         break;
     //     case '0':
     //         exit(0);
-    //         break;
     }
+}
 
 void conv_bin()
 {
@@ -83,7 +80,25 @@ void conv_oct()
 
 void conv_dec()
 {
-    input_data();
+    select_data_type();
+
+    int tmp = 0, indices = 0;
+
+    if(data.base_of_data >= 2 && data.base_of_data <= 16){
+        for(int i = strlen(data.input) - 1; i >= 0; --i){
+            if(isHex(data.input[i])){
+                tmp = char_to_int(data.input[i]);
+                data.dec += tmp * pow(data.base_of_data, indices);
+            }
+            else{
+                tmp = char_to_int(data.input[i]);
+                data.dec += tmp * pow(data.base_of_data, indices);
+            }
+            indices++;
+        }
+    }
+
+    printf("%llu", data.dec);
 }
 
 void conv_hex()
@@ -91,7 +106,7 @@ void conv_hex()
 
 }
 
-void input_data()
+void select_data_type()
 {
     print_header("");
     printf("                  변환할 데이터의 진법을 입력하세요\n");
@@ -102,36 +117,37 @@ void input_data()
     switch(getchar()){
         case '1':
             data.base_of_data = 2;
-            printf("                  변환할 데이터를 입력하세요(예: 0101)\n");
-            printf("                  입력: ");
-            scanf("%s", data.input);
-            if(sizeof(data.input) > MAX_SIZE_BIN) {main_menu();}
+            init_data();     
+            if(strlen(data.input) > MAX_SIZE_BIN){main_menu("2진수의 최대 입력 자리수는 64자리입니다");}
             break;
         case '2':
             data.base_of_data = 8;
-            printf("                  변환할 데이터를 입력하세요(예: 174)\n");
-            printf("                  입력: ");
-            scanf("%s", data.input);
-            if(!(sizeof(data.input) > MAX_SIZE_OCT)) {main_menu();}
+            init_data();
+            if(strlen(data.input) > MAX_SIZE_BIN){main_menu("8진수의 최대 입력 자리수는 22자리입니다");}
             break;
         case '3':
             data.base_of_data = 10;
-            printf("                  변환할 데이터를 입력하세요(예: 981)\n");
-            printf("                  입력: ");
-            scanf("%llu", &data.dec);
-            if(!(sizeof(data.dec) > ULONG_LONG_MAX)) {main_menu();}
+            init_data();
+            if(data.dec > ULLONG_MAX ){main_menu("10진수의 최대 입력값은 18,446,744,073,709,551,615입니다");}
             break;
         case '4':
             data.base_of_data = 16;
-            printf("                  변환할 데이터를 입력하세요(예: f234)\n");
-            printf("                  입력: ");
-            scanf("%s", data.input);
-            if(sizeof(data.input) > MAX_SIZE_HEX) {main_menu();}
+            init_data();
+            if(strlen(data.input) > MAX_SIZE_HEX){main_menu("16진수의 최대 입력 자리수는 16자리입니다");}
             break;
         case '0':
-            main_menu();
+            main_menu("");
             break;
     }
+}
+
+void init_data()
+{
+    printf("                  변환할 데이터를 입력하세요");
+    printf("                  ");
+    printf("                  입력: ");
+    fflush(stdin);
+    scanf("%s", data.input);
 }
 
 bool isHex(const char hexchar)
@@ -187,4 +203,4 @@ void print_header(const char* notice)
     printf("                           Base Conversion Program                           \n");
     printf("                  -----------------------------------------                  \n");
     printf("%s", notice);
-}
+} 
