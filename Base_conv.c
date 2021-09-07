@@ -70,12 +70,34 @@ void main_menu(const char* message)
 
 void conv_bin()
 {
+    int i = 0;
 
+    if(data.base_of_data == 10){
+        while(data.dec > 0){
+            data.bin[i] = data.dec % 2;
+            data.dec /= 10;
+            i++;
+        }
+    else
+    {
+
+    }
 }
 
 void conv_oct()
 {
-   
+ int i = 0;
+
+    if(data.base_of_data == 10){
+        while(data.dec > 0){
+            data.oct[i] = data.oct % 8;
+            data.dec /= 10;
+            i++;
+        }
+    else
+    {
+
+    }  
 }
 
 void conv_dec()
@@ -103,7 +125,21 @@ void conv_dec()
 
 void conv_hex()
 {
+    int mod = 0, i = 0;
 
+    if(data.base_of_data == 10){
+        while(data.dec > 0){
+            mod = data.dec % 16;
+            if(mod < 10){
+                data.hex[i] = 48 + mod;
+            }
+            else{
+                data.hex[i] = 65 + (mod - 1);
+            }
+        }
+        decimal = data.dec / 16;
+        i++;
+    }
 }
 
 void select_data_type()
