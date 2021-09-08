@@ -11,21 +11,16 @@
 
 void main_menu();
 void print_header(const char* notice);
-void input_data();
-void conv_bin();
-void conv_oct();
-void conv_dec();
-void conv_hex();
 void select_data_type();
 void init_data();
+void decimal_to_cnv_select_base();
+void data_to_cnv_decimal();
 bool isHex(const char hexchar);
 int char_to_int(const char data);
 
 struct conv_data{
-    char input[64];
-    char bin[64];
-    char oct[22];
-    char hex[16];
+    char input[65];
+    char output[65];
     unsigned long long dec;
     int base_of_data;
 };
@@ -41,7 +36,7 @@ void main_menu(const char* message)
 {
     system("clear");
     print_header("");
-    printf("                 ▄   ▄  ▄▄   ▄ ▄▄▄   ▄▄▄▄   ▄▄  ▄▄▄  ▄  ▄                   \n");
+    printf("                  ▄   ▄  ▄▄   ▄ ▄▄▄   ▄▄▄▄   ▄▄  ▄▄▄  ▄  ▄                   \n");
     printf("                  █▀▄▀█ █  █  ▄ █  █  █ █ █ █▄▄█ █  █ █  █                   \n");
     printf("                  █   █ ▀▄▄▀▄ █ █  █  █ █ █ ▀▄▄  █  █ ▀▄▄▀▄                  \n");
     printf("                  -----------------------------------------                  \n");
@@ -68,39 +63,23 @@ void main_menu(const char* message)
     }
 }
 
-void conv_bin()
+void decimal_data_to_cnv_select_base()
 {
-    int i = 0;
-
-    if(data.base_of_data == 10){
-        while(data.dec > 0){
-            data.bin[i] = data.dec % 2;
-            data.dec /= 10;
-            i++;
+    while(data.dec > 0){
+        {
+            mod = data.dec % data.base_of_cnv;
+            if(mod < 10){
+                data.output[i] = 48 + mod;
+            }
+            else{
+                data.output[i] = 65 + (mod - 1);
+            }
         }
-    else
-    {
-
-    }
+        data.dec /= data.base_of_cnv;
+        i++;
 }
 
-void conv_oct()
-{
- int i = 0;
-
-    if(data.base_of_data == 10){
-        while(data.dec > 0){
-            data.oct[i] = data.oct % 8;
-            data.dec /= 10;
-            i++;
-        }
-    else
-    {
-
-    }  
-}
-
-void conv_dec()
+void data_to_cnv_decimal()
 {
     select_data_type();
 
@@ -119,30 +98,52 @@ void conv_dec()
             indices++;
         }
     }
-
-    printf("%llu", data.dec);
 }
 
-void conv_hex()
+void binary_data_to_cnv_select_base()
 {
-    int mod = 0, i = 0;
+    size_t size = 0;
+    size = strlen(data.input);
 
-    if(data.base_of_data == 10){
-        while(data.dec > 0){
-            mod = data.dec % 16;
-            if(mod < 10){
-                data.hex[i] = 48 + mod;
-            }
-            else{
-                data.hex[i] = 65 + (mod - 1);
-            }
-        }
-        decimal = data.dec / 16;
-        i++;
+    switch(data.base_of_cnv){
+        case 8:
+            
+            break;
+        case 16:
+
+            break;
     }
 }
 
-void select_data_type()
+void octal_data_to_cnv_select_base()
+{
+    size_t size = 0;
+    size = strlen(data.input);
+
+    switch(data.base_of_cnv){
+        case 2:
+            break;
+        case 16:
+
+            break;
+    }
+}
+
+void hexa_data_to_cnv_select_base()
+{
+    size_t size = 0;
+    size = strlen(data.input);
+
+    switch(data.base_of_cnv){
+        case 2:
+            break;
+        case 8:
+
+            break;
+    }
+}
+
+void select_base_of_data()
 {
     print_header("");
     printf("                  변환할 데이터의 진법을 입력하세요\n");
