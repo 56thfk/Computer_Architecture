@@ -3,24 +3,17 @@
 #include <string.h>
 #include <stdbool.h>
 #include <math.h>
-#include <limits.h>
-
-#define MAX_SIZE_BIN 65 
-#define MAX_SIZE_OCT 23
-#define MAX_SIZE_HEX 17
 
 void main_menu();
 void print_header(const char* notice);
 void select_data_type();
 void init_data();
-void decimal_to_cnv_select_base();
-void data_to_cnv_decimal();
 bool isHex(const char hexchar);
 int char_to_int(const char data);
 
 struct conv_data{
     char input[65];
-    char output[65];
+    char output[65]
     unsigned long long dec;
     int base_of_data;
 };
@@ -65,6 +58,8 @@ void main_menu(const char* message)
 
 void decimal_data_to_cnv_select_base()
 {
+    int mod = 0, int i = 0;
+
     while(data.dec > 0){
         {
             mod = data.dec % data.base_of_cnv;
@@ -77,12 +72,11 @@ void decimal_data_to_cnv_select_base()
         }
         data.dec /= data.base_of_cnv;
         i++;
+    }
 }
 
-void data_to_cnv_decimal()
+void select_data_to_cnv_decimal()
 {
-    select_data_type();
-
     int tmp = 0, indices = 0;
 
     if(data.base_of_data >= 2 && data.base_of_data <= 16){
@@ -102,55 +96,23 @@ void data_to_cnv_decimal()
 
 void binary_data_to_cnv_select_base()
 {
-    size_t size = 0;
-    size = strlen(data.input);
-
-    switch(data.base_of_cnv){
-        case 8:
-            
-            break;
-        case 16:
-
-            break;
-    }
 }
 
 void octal_data_to_cnv_select_base()
 {
-    size_t size = 0;
-    size = strlen(data.input);
-
-    switch(data.base_of_cnv){
-        case 2:
-            break;
-        case 16:
-
-            break;
-    }
 }
 
 void hexa_data_to_cnv_select_base()
 {
-    size_t size = 0;
-    size = strlen(data.input);
-
-    switch(data.base_of_cnv){
-        case 2:
-            break;
-        case 8:
-
-            break;
-    }
 }
 
-void select_base_of_data()
+void select_data_type()
 {
     print_header("");
     printf("                  변환할 데이터의 진법을 입력하세요\n");
     printf("                  <1> Binary <2> Octal <3> Decimal <4> Hexa\n");
     printf("                  <0> return Main menu\n");
-    printf("                  입력: ");
-    fflush(stdin);
+    printf(stdin);
     switch(getchar()){
         case '1':
             data.base_of_data = 2;
@@ -176,7 +138,8 @@ void select_base_of_data()
             main_menu("");
             break;
     }
-}
+}("                  입력: ");
+    fflush
 
 void init_data()
 {
